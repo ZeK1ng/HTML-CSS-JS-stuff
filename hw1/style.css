@@ -71,6 +71,7 @@
 	width: 165px;
 	height: 40px;
 	color:black;
+	border-radius: 25px;
 	text-align: center;
 	background-color: cyan;
 }
@@ -149,4 +150,51 @@
 	text-align: center;
 	line-height: 50px;
 	background-color: #151515;
+}
+.more-info-section{
+	width: 100%;
+	height: 380px;
+	background-color: #333333;
+}
+.about-blog{
+	margin-top: 20px; 
+	width: 225px;
+	height: 360px;
+	color: grey;
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.header-part{
+	width: 225px;
+	height: 40px;
+	color: white;
+}
+.text-part{
+	width: 225px;
+	height: 255px;
+	color: grey;
+}
+.info-box{
+	width: 225px;
+	height: 40px;
+	border-radius: 20px;
+	background-color: #222222;
+	text-align:center;
+}
+.msg-box{
+	width: 225px;
+	height: 90px;
+	border-radius: 20px;
+	background-color: #222222;
+	text-align:center;
+}
+.submit-box{
+	width: 165px;
+	height: 40px;
+	color:black;
+	border-radius: 25px;
+	text-align: center;
+	background-color: cyan;
 }
