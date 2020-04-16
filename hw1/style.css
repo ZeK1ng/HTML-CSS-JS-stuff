@@ -3,90 +3,162 @@
     padding: 0;
     box-sizing:border-box;
 }
-.logo-menu-section{
+.navbar-section{
 	width: 100%;
 	height: 100px;
 	background-color: #290000;
 }
 
-.multi-use-container{
-	width: 1200px;
+.navbar-container{
+	width: 960px;
 	margin: auto;
+	
+
+}
+.navbar{
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-
+	
 }
 .logo{
 	width: 250px;
 	height: 50px;
-	background: green;
-	text-align: center;;
+	text-align: center;
+	margin-top: 20px;/*sxvebic chamowia , savaraudod imito ro align-items center maq. upro kargad rogor sheidzleba?
+									navbarshi vcadeda didi araperi qna*/
+}
+.logo-name{
 	color:white;
 }
-.menu-items{
-	width: 650px;
+.logo-text{
+	color:grey;
+}
+.navbar-items{
+	width: 700px;
 	height: 50px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items:center;
 	justify-content: space-between;
-
 }
 
-.item{
-	width: 100px
+.nav-item{
+	width: 110px;
 	height:25px;
-	background-color: black;
-	color: white;
+	color: grey;
+	border-radius: 25px;
+	text-align: center;
 }
-.info-section{
+.nav-item:hover{
+	background-color: #76c38f;
+	color:white
+}
+.slider-section{
 	width: 100%;
 	height: 500px;
 	background-color: #290000
 }
-.eye-catcher-info{
-	margin-top: 50px;
-	width: 415px;
-	height: 250px;
+.slider-container{
+	width: 960px;
+	margin:auto;
+}
+.slider{
+	width: 960px;
+	height: 500px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items:center;
+	justify-content: space-between;
+	position: relative;
+}
+.left-arrow{
+	width: 0;
+	height: 0;
+	border-top: 15px solid transparent;
+	border-right: 15px solid yellow;
+	border-bottom: 15px solid transparent;
+	left: 0;
+	top:50%;
+}
+.right-arrow{
+	width: 0;
+	height: 0;
+	border-top: 15px solid transparent;
+	border-left: 15px solid yellow ;
+	border-bottom: 15px solid transparent;
+	right: 0;
+	top:50%;
+}
+.slider-box{
+	/* margin-left: 40px;rogor avirido */
+	width: 883px;
+	height: 500px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+}
+.info-slide{
+	width: 325px;
+	height: 259px;
 	display: flex;
 	flex-direction: column;
 	align-items: left;
-	/*background: black;*/
 }
-.eye-catcher-header{
+.info-slide-header{
 	width: 270px;
-	height: 100px;
-	color: white;
-	text-align: left;
+	height: 80px;
+	color: white;	
+	font-size: 20px;
 }
-.eye-catcher-text{
-	width: 340px;
-	height: 90px;
+.info-slide-text{
+	width: 325px;
+	height: 85px;
 	color:grey;
-	text-align: left;
 }
-.eye-catcher-more{
-	width: 165px;
-	height: 40px;
-	color:black;
+.more-info-slide-button{
+	width: 152px;
+	height: 33px;
+	background-color:orange;
 	border-radius: 25px;
 	text-align: center;
-	background-color: cyan;
+	color:grey;
 }
-.circle{
-	width: 515px;
-	height: 470px;
-	color: white;
+
+.more-info-slide-button:hover{
+	color:white;
+	background-color: #76c38f;
+}
+
+.slider-circle{
+	width: 434px;
+	height: 430px;
+	position: relative;
+	border-radius: 50%;
+	background-color: #333333;
+	border:20px solid grey;
+	align-items: center;
 	text-align: center;
-	background-color: grey;
-	line-height: 470px;
+	line-height: 370px;
+	font-size: 50px;
 }
+
 .service-section{
 	width: 100%;
 	height: 425px;
 	background-color: #660000
+}
+.service-container{	
+	width: 960px;
+	margin:auto;
+}
+.service-box{
+	display:flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
 }
 .service-item{
 	margin-top: 50px;
@@ -116,15 +188,59 @@
 	height: 80px;
 	color: #333333;
 }
+.service-item:hover{
+	background-color: cyan;
+}
+.service-item:hover .service-image{
+	background-color: white;
+}
+.service-item:hover .service-title{
+	color:white;
+}
+.service-item:hover .service-text{
+	color:white;
+}
+
+.latest-work-section{
+	width: 100%;
+	height: 113px;
+	background-color:#660000 ;
+}
+.latest-work-section-container{
+	width: 960px;
+	margin:auto;
+}
+.latest-work-section-items{
+	align-items: center;
+}
+.latest-work-line{
+	height: 4px;
+	background-color: #333333;
+	display: flex;
+	justify-content: center;
+}
+.latest-work-text{
+	width: 250px;
+	height: 42px;
+	background-color: #333333;
+	align-self: center;
+	color:white;
+	text-align: center;
+	line-height: 42px;
+}
+
 .work-section{
 	width: 100%;
-	height: 547px;
+	height: 485px;
 	background-color:  #660000
 }
 .work-container{
 	width: 960px;
-	height: 530px;
 	margin: auto;
+	
+}
+.work-items{
+	height: 425px;
 	justify-content: space-between;
 	display: flex;
 	flex-wrap: wrap;
@@ -132,51 +248,76 @@
 }
 .work-item{
 	width: 300px;
-	height: 200px;
-	align-items: center;
-}
-.upper-box-item{
-	width: 300px;
-	height:150px;
+	height:200px;
 	color:white;
 	text-align: center;
+	position: relative;
 	line-height: 160px;
+	transition: 0.5s;
+	overflow: hidden;
 	background-color: #333333;
 }
-.lower-box-item{
+.lower-work-item-box{
 	width: 300px;
-	hyphens: 50px;
+	height:  40px;
+	position: absolute;
 	color:white;
 	text-align: center;
 	line-height: 50px;
 	background-color: #151515;
+
+    transition: 0.5s;
 }
-.more-info-section{
-	width: 100%;
-	height: 380px;
+.work-item:hover{
 	background-color: #333333;
 }
-.about-blog{
-	margin-top: 20px; 
+.work-item:hover .lower-work-item-box{
+	background-color: #660000;
+	bottom: -40px;
+}
+.footer-section{
+	width: 100%;
+	height: 400px;
+	background-color: #333333;
+}
+.footer-container{
+	width: 960px;
+	margin:auto;
+}
+.footer-items{
+	height: 333px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+.footer-item{
 	width: 225px;
-	height: 360px;
-	color: grey;
-	text-align: left;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	align-items: left;
 }
-.header-part{
-	width: 225px;
-	height: 40px;
-	color: white;
+.footer-item-header{
+	color:white
 }
-.text-part{
-	width: 225px;
-	height: 255px;
-	color: grey;
+.footer-item-title{
+	color:#76c38f
 }
-.info-box{
+.footer-paragraph{
+	color:grey
+}
+.footer-item-more{
+	color:#76c38f
+	
+}
+.ul{
+	font-size: 25px;
+	color:#76c38f
+}
+
+
+.inp-box{
 	width: 225px;
 	height: 40px;
 	border-radius: 20px;
@@ -193,6 +334,7 @@
 .submit-box{
 	width: 165px;
 	height: 40px;
+	margin-top: 20px;
 	color:black;
 	border-radius: 25px;
 	text-align: center;
