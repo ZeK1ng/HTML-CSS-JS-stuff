@@ -1,0 +1,72 @@
+n<!DOCTYPE html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Document</title>
+</head>
+<body>
+   
+    <input type="text" id = "input" onkeydown=getInpt()>; 
+    <!-- შენიშვნა , ხაზების გამოყოფა ვერ ვქენი ,ყოველი მესიჯი რომ ახალი ხაზიდან დაიწყოს და ეგ როგორ უნდა მექნა?-->
+    <div id="output"></div>
+    <script>
+         class GetMessage{
+            constructor(inp,url='https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits?fbclid=IwAR2_gxlCqPzpBfAedyg7KFI5q9RcovT3LFnSedQqmzNxzOTCPW8E4X_4zsc'){
+                this._inp = inp;
+                this._url = url;
+            }
+        // gets curret value of url of the class
+            getUrl(){
+                return this._url;
+            }
+        //gets current value input of the class
+            getInp(){
+                return this._inp;
+            }
+        //updates the url of the class with new url
+            setUrl(url){
+                this._url = url;
+            }
+        // updates the input of the class with the new input
+            setInp(inp){
+                this._inp = inp;
+            }
+        // gets every message which contains input as a substring
+            async  getMsg() {
+                let response=await fetch(this._url);
+                let commits =await response.json();
+                let k =  commits.filter(x=> x.commit.message.includes(this._inp));
+                let arr=[];
+                for(let i=0; i< k.length; i++){
+                    arr.push(k[i].commit.message);
+                }
+                return arr;
+            }
+        // outputs given args to the screen 
+            output_info(args){
+                args.then(function(val){
+                    let elem =document.createElement('div');
+                    elem.className="message";
+                    elem.innerHTML=val;
+                    document.getElementById("output").append(elem);
+                }); 
+            }
+        
+        }
+
+
+        
+        const getMsg = new GetMessage();
+        function getInpt(){
+            if(event.key == "Enter"){
+                getMsg.setInp(document.getElementById("input").value);
+                let messages = getMsg.getMsg();
+                getMsg.output_info(messages);
+                
+            }
+        }
+        
+    </script>
+</body>
+</html>
