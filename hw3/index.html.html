@@ -46,10 +46,12 @@ n<!DOCTYPE html><!DOCTYPE html>
         // outputs given args to the screen 
             output_info(args){
                 args.then(function(val){
-                    let elem =document.createElement('div');
-                    elem.className="message";
-                    elem.innerHTML=val;
-                    document.getElementById("output").append(elem);
+                    for(let i =0 ;i <val.length; i++){
+                        let elem =document.createElement('div');
+                        elem.className="message";
+                        elem.innerHTML=val[i];
+                        document.getElementById("output").append(elem);
+                    }
                 }); 
             }
         
