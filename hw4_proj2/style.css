@@ -21,11 +21,30 @@
 
 .tag-buttons{
     display: flex;
+    flex-direction: wrap;
     align-items: center;
 }
 
+.tags-wrapper{
+    position: relative;
+}
+.tag-button-delete{
+    right: 0;
+    top: 0;
+    position: absolute;
+    display: none;
+    justify-content: center;
+    width:18px;
+    height:18px;
+    border-radius: 50%;
+    font-size:10px;
+    background-color: red;
+    color:black;
+    line-height: 18px;
+}
 
 .default-buttons{
+    
     height: 30px;
     padding: 4px 8px;
     font-size: 14px;
@@ -36,10 +55,15 @@
     text-align: center;
     border : 1px solid transparent;
 }
+.tags-wrapper:hover .tag-button-delete{
+    display: flex;
+    
+}
 .tag-button:focus{
     box-shadow: 0 0 0 0.2rem #0ebeffc7;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
 .search-bar{
     margin-top: 6.5px;
     margin-left:3px;

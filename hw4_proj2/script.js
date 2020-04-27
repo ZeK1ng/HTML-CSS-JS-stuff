@@ -29,9 +29,8 @@ class SearchGifs{
         SearchGifs.displayResult(result);
     }
     static displayResult(data){
-        console.log(data);
         const resultDiv = document.getElementById("result-gifs");
-        if(data.length == 0){
+        if(data.data.length == 0){
             resultDiv.innerHTML = "Matching Gifs Not Found";
             return;
         }
@@ -39,12 +38,12 @@ class SearchGifs{
         for(let i =0; i< data.data.length; i++){
             const currGif=data.data[i];
             const newGifBox = document.createElement("div");
-            newGifBox.classList.add("gif-box");
+            newGifBox.className="gif-box";
             const newGifImage =document.createElement("img");
             newGifImage.src=currGif.images.fixed_height.url;
-            newGifImage.classList.add("gif-box-img");
+            newGifImage.className="gif-box-img";
             const newGifRating = document.createElement("div");
-            newGifRating.classList.add("gif-box-rating");
+            newGifRating.className="gif-box-rating";
             newGifRating.innerText="Rating: " + currGif.rating;
             newGifBox.appendChild(newGifImage);
             newGifBox.appendChild(newGifRating);
@@ -54,7 +53,7 @@ class SearchGifs{
     static searchByInput(){
         const input = document.getElementById("search-field-id").value;
         if(input==null|| input=='')return;
-        SearchGifs.displayTag(input);
+        SearchGifs.displayTag(input)
         SearchGifs.fetchGifs(input);
     }
 
@@ -66,19 +65,36 @@ class SearchGifs{
 
     static displayTag(newTagVal){
         if(localStorage.getItem(newTagVal) != null ){
-           // fetchGifs(newTagVal);
             return;
         } 
-        let elem = document.createElement('input');
+        const newElem = document.createElement("div");
+        const tagsDiv = document.getElementById("tag-buttons-id");
+
+        newElem.className="tags-wrapper";
+        const elem = document.createElement('input');
         elem.type = "button";
         elem.className="default-buttons tag-button";
         elem.value = newTagVal;
         elem.addEventListener("click",function(){
             SearchGifs.fetchGifs(this.value);
         });
-        document.getElementById("tag-buttons-id").append(elem);
+
+        const deleteTag = document.createElement("input");
+        deleteTag.className ="tag-button-delete";
+        deleteTag.type="button";
+        deleteTag.value="x";
+        deleteTag.addEventListener("click",function(){
+            localStorage.removeItem(this.parentNode.lastElementChild.value);
+            this.parentNode.removeChild(this.parentNode.lastElementChild);
+        });
+        newElem.appendChild(deleteTag);
+        newElem.appendChild(elem);
+        tagsDiv.appendChild(newElem);
         localStorage.setItem(newTagVal,1);
-        //SearchGifs.fetchGifs(newTagVal);
+
+    }
+    static deleteFromStorage(val){
+
     }
     static async fetchGifs(gif_name){
       const param = SearchGifs.setup_params(gif_name);
