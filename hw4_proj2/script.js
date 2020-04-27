@@ -1,6 +1,14 @@
 import config from "./config.js"
 
 class SearchGifs{
+    /**
+     * 
+     * @param {the default url } url 
+     * @param {*the defaukt trending url} trendingUrl 
+     * @param {*default key} key 
+     * @param {*default max_gif_num} max_gif_num 
+     * @param {*default_tags} def_tags 
+     */
     constructor(url=config.SOURCE_GIF_URL,
                 trendingUrl = config.SOURCE_TRENDING_URL,
                 key = config.KEY,
@@ -13,6 +21,10 @@ class SearchGifs{
         this._maxGifNum=max_gif_num;
         this._defTags=def_tags;
     }
+    /**
+     * adds default tags to the screen and to the dom 
+     * adds listeners to submit and trending buttons
+     */
     init(){
         this._displayDefTags();
         const get_trending = document.getElementById("trending-btn-id");
@@ -20,7 +32,9 @@ class SearchGifs{
         const submit_input = document.getElementById("submit-btn-id");
         submit_input.addEventListener("click",SearchGifs.searchByInput);
     }
-    
+    /**
+     * fetches the trending giffs from the given trending-gif url
+     */
     static async fetchTrendingGifs(){
         const param = SearchGifs.setup_params();
         const args = config.SOURCE_TRENDING_URL+param;
@@ -28,6 +42,10 @@ class SearchGifs{
         const result = await resp.json();
         SearchGifs.displayResult(result);
     }
+    /**
+     * 
+     * @param {displays the data fetched from the server or outputs the message if gifs can`t be found} data 
+     */
     static displayResult(data){
         const resultDiv = document.getElementById("result-gifs");
         if(data.data.length == 0){
@@ -50,6 +68,9 @@ class SearchGifs{
             resultDiv.appendChild(newGifBox);
         }
     }
+    /**
+     * searches gifs by the given user input after the user clicks the submit button
+     */
     static searchByInput(){
         const input = document.getElementById("search-field-id").value;
         if(input==null|| input=='')return;
@@ -57,12 +78,19 @@ class SearchGifs{
         SearchGifs.fetchGifs(input);
     }
 
+    /**
+     * displays the default tags
+     */
     _displayDefTags(){
         for(let i = 0; i<config.DEFAULT_TAGS.length; i++){
             SearchGifs.displayTag(config.DEFAULT_TAGS[i]);
         }
     }
-
+    /**
+     * 
+     * @param {displays the new tag given by the user, after clicking the submit button. 
+     *                  aslo adds and initializes the delete button} newTagVal 
+     */
     static displayTag(newTagVal){
         if(localStorage.getItem(newTagVal) != null ){
             return;
@@ -93,9 +121,10 @@ class SearchGifs{
         localStorage.setItem(newTagVal,1);
 
     }
-    static deleteFromStorage(val){
-
-    }
+    /**
+     * 
+     * @param {fetches gifs classified by the given name from the given source url} gif_name 
+     */
     static async fetchGifs(gif_name){
       const param = SearchGifs.setup_params(gif_name);
        const args = config.SOURCE_GIF_URL+param;
@@ -103,7 +132,11 @@ class SearchGifs{
        const result = await resp.json();    
        SearchGifs.displayResult(result);
     }
-
+    /**
+     * 
+     * @param {sets up parametrs for fetching. if the name is empty then the fetching happens from trending-gifs url
+     *                      and has no name . otherwise the given gif name is appended to the parametres } name 
+     */
     static setup_params(name=''){
         const param = new URLSearchParams();
         param.append('method', 'GET');
@@ -116,6 +149,9 @@ class SearchGifs{
 
 
 }
+/**
+ * clears the local storage so it will be clear and in default state after reload.
+ */
 localStorage.clear();
 const elem = new SearchGifs();
 elem.init();

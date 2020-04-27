@@ -93,8 +93,12 @@
 #result-gifs{
     display: flex;
     flex-wrap: wrap;
+
+
 }
 .gif-box{
+    margin: 0.5rem;
+    display: inline-block;
     display: flex;
     flex-direction: column;
     border:solid 1px black;
@@ -107,3 +111,4 @@
     background-color: white;
     color: black;
   }
+ 
