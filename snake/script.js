@@ -1,13 +1,46 @@
+const key_left = "37";
+const key_right = "39";
+const key_down = "40";
+const key_up="38";
+const startBody = [
+    {
+        row:0,
+        col:3
+    },
+    {
+        row :0,
+        col:2
+    },
+    {
+        row:0,
+        col:1
+    },
+    {
+        row :0,
+        col :0
+    },
+]
 class Snake{
     constructor(){
-        this.maxHeight = document.getElementById("canvas-id").clientHeight;
-        this.maxWidth = document.getElementById("canvas-id").clientWidth;
-        // this.startPointX= (document.getElementById("canvas-id").offsetWidth - this.maxWidth)/2;
-        // this.startPointY= (document.getElementById("canvas-id").offsetHeight - this.maxHeight)/2;
         this.boxSize=10;
-        this.snake={x:0,y:0 ,snbody:0};
-        this.fruit={x:0,y:0};
-        this.canvas=document.getElementById("canvas-id");
+        this.maxHeight = document.getElementById("screen-id").clientHeight;
+        this.maxWidth = document.getElementById("screen-id").clientWidth;
+        this.maxRows= this.maxHeight/this.boxSize;
+        this.maxCols = this.maxWidth/this.boxSize;
+        this.gameon=false;
+        this.direction = 
+        // this.startPointX= (document.getElementById("screen-id").offsetWidth - this.maxWidth)/2;
+        // this.startPointY= (document.getElementById("screen-id").offsetHeight - this.maxHeight)/2;
+        this.snake=JSON.parse(JSON.stringify(startBody));
+        this.snakeBodyElems=[];
+        console.log(this.snake);
+        this.fruit=[
+            {
+                row: 0,
+                col :0 ,
+            }
+        ]
+        this.screen=document.getElementById("screen-id");
     }
 
     getMaxHeight(){
@@ -16,16 +49,21 @@ class Snake{
     getMaxWidth(){
         return this.maxWidth;
     }
-    getSnakeX(){
-        return this.snake.x;
+    getMaxCols(){
+        return this.maxCols;
     }
-    getSnakeY(){
-        return this.snake.y;
+    getMaxRows(){
+        return this.maxRows;
     }
+    getSnakeRow(){
+        return this.snake[0].row;
+    }
+    getSnakeCol(){
+        return this.snake[0].col;
+    }
+
     startGame(){
         this.setupBoard();
-        this.interval = setInterval(this.playGame,1000);
-        
     }
     setupBoard(){
         document.body.addEventListener("keydown",this.changeDirection);
@@ -33,17 +71,32 @@ class Snake{
         this.addSnake();
         this.addFruit();
     }
-    playGame(){
-        console.log(this.snake);
-        // this.snake.snbody.style.left=this.snake.x+this.boxSize+"px";
-    }
+    /**
+     * setting board up 
+     */
+    changeDirection(e){
+        
+        if(e.keyCode ==key_left  ){
+        
+        }
+        if(e.keyCode==key_right){
+            console.log("right");
+        }
+        if(e.keyCode==key_up){
+            console.log("up");
+        }
+     
+        if(e.keyCode==key_down){
+            console.log("down");
+        }
 
+    }
     addButtons(){
         const startbtn = document.createElement("input");
         startbtn.type = "button";
         startbtn.className="button";
         startbtn.value = "START";
-        startbtn.addEventListener("click",this.startNewGame)
+        startbtn.addEventListener("click",this.startNewGame.bind(this))
 
         document.getElementById("btns-id").append(startbtn);
 
@@ -51,84 +104,107 @@ class Snake{
         stopbtn.type = "button";
         stopbtn.className="button stop-btn";
         stopbtn.value = "STOP";
-        stopbtn.addEventListener("click",this.stopGame)
+        stopbtn.addEventListener("click",this.stopGame.bind(this))
         document.getElementById("btns-id").append(stopbtn);
 
         const resetBtn = document.createElement("input");
         resetBtn.type = "button";
         resetBtn.className="button reset-btn";
         resetBtn.value = "RESET";
-        resetBtn.addEventListener("click",this.resetGame)
+        resetBtn.addEventListener("click",this.resetGame.bind(this))
         document.getElementById("btns-id").append(resetBtn);
     }
-
-    resetGame(){
-        window.location.reload(false);
-    }
-    // ar mushaobs
-    stopGame(){
-        console.log(this.interval);
-        clearInterval(this.interval);
-    }
-
-    startNewGame(){
-    // rato ver xedaavs???    this.resetGame();
-        window.location.reload(false);
-        this.startGame();
-    }
     addSnake(){
-        //for(let i =0; i< 3; i++){
+        for(let i =0; i<this.snake.length; i++){
             
             const elem = document.createElement("div");
             elem.className="box";
-            elem.style.top=this.snake.y+"px";
-            elem.style.left=this.snake.x+"px";
-            this.canvas.append(elem);
-            this.snake.snbody=elem;
+            elem.id = "box-id";
+            elem.style.top=this.snake[i].row*this.boxSize+"px";
+            elem.style.left=this.snake[i].col*this.boxSize+"px";
+            this.screen.append(elem);
+            this.snakeBodyElems.push(elem);
+        }
+        console.log(this.snakeBodyElems);
     }
-    /**
-     * adds fruit on random point inside canvas. if the fruits random coordinates mathces snakes coordinates , the new random cords are aquired.
-     */
+
+
     addFruit(){
         const fruit = document.createElement("div");
         fruit.classList.add("box");
-        fruit.classList.add("box-fruit");
-        let randX = this.getRandomInt();
-        while(randX<=this.snake.x+this.boxSize) randX=this.getRandomInt();
-        let randY = this.getRandomInt();
-        while(randY<=this.snake.y+this.boxSize) randY=this.getRandomInt();
-        console.log(randY);
-        console.log(randX);
-        fruit.style.right=randX+"px";
-        fruit.style.top=randY+"px";
-        document.getElementById("canvas-id").append(fruit);
-
-    }
-    /**
-     * return random number form StartingPointx to Max val
-     * @param {max value} max 
-     */
-    getRandomInt(max=this.maxHeight){
-        return Math.floor(Math.random() * (max-this.boxSize));
+        fruit.classList.add("box-fruit");  
+        fruit.id="fruit-id"
+        this.assignRandomCords();
+        fruit.style.right=this.fruit.row*this.boxSize+"px";
+        fruit.style.top=this.fruit.col*this.boxSize+"px";
+        document.getElementById("screen-id").append(fruit);
     }
 
-    changeDirection(e){
-        
-        if(e.keyCode =="37"  ){
-            console.log("left");
+    assignRandomCords(){
+        let newRow,newCol;
+        while(true){
+            newRow=Math.floor(Math.random()*(this.maxRows-1));
+            newCol = Math.floor(Math.random()*(this.maxCols-1));
+            if(this.snake.filter(cords=> cords.col==newCol && cords.row==newRow).length ==0) break;
         }
-        if(e.keyCode=="38"){
-            console.log("up");
-        }
-        if(e.keyCode=="39"){
-            console.log("right");
-        }
-        if(e.keyCode=="40"){
-            console.log("down");
-        }
-
+        this.fruit.row=newRow;
+        this.fruit.col=newCol;
     }
 
+
+
+    
+
+
+    resetGame(){
+        this.stopGame();
+        this.snake = startBody;
+        const oldFruit=document.getElementById("fruit-id");
+        oldFruit.parentNode.removeChild(oldFruit);
+        this.addFruit();
+    }
+
+
+    stopGame(){
+        this.gameon=false;
+        clearInterval(this.interval);
+    }
+
+    
+    
+    
+    startNewGame(){
+        if(this.gameon){
+            //clearInterval(this.interval);
+            alert("please end the current game");
+           // this.interval = setInterval(this.playGame.bind(this),1000);
+
+            return;
+        }
+        this.gameon=true;
+        this.interval = setInterval(this.playGame.bind(this),1000);
+    }
+    playGame(){
+        this.moveSnakeOneStep();
+    }
+    
+    moveSnakeOneStep(){
+
+        console.log(this.snake);
+        let newCol,newRow;
+        newRow=this.getSnakeRow();
+        newCol = this.getSnakeCol()+1;
+        this.snake.unshift({
+            row:newRow,
+            col:newCol
+        });
+        this.snake.pop();
+        const toDelet=this.snakeBodyElems.pop();
+        toDelet.parentNode.removeChild(toDelet);
+        console.log(this.snake);
+
+       
+    }
 
 
 
@@ -136,6 +212,8 @@ class Snake{
 
 }
 const snk = new Snake();
-console.log(snk.getSnakeX());
-console.log(snk.getSnakeY());
+// console.log(snk.getSnakeCol());
+// console.log(snk.getSnakeRow());
+// console.log(snk.getMaxRows());
+// console.log(snk.getMaxCols());
 snk.startGame();

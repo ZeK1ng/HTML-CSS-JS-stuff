@@ -37,7 +37,7 @@
 .stop-btn{
     background-color: red;
 }
-.canvas{
+.screen{
     margin-top: 50%;
     width: 450px;
     height: 450px;
@@ -49,9 +49,12 @@
 }
 .box{
     width: 10px;
+    margin-right:10px;
     height: 10px;
     position: absolute;
+    border:0.4px solid white;
     background-color: black;
+    
 }
 .box-fruit{
     
