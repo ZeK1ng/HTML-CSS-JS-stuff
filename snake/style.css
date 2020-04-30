@@ -10,10 +10,7 @@
 .background{
     background-color: #375;
 }
-.parent-wrapper{
-    display: flex;
-    align-items: center;
-}
+
 .wrapper{
     display:flex;
     flex-direction: column;
@@ -21,6 +18,7 @@
  
 }
 .score-box{
+    margin-top: 10px;
     width: 100px;
     height: 50px;
     border-radius: 50%;
@@ -48,13 +46,13 @@
 .reset-btn{
     background-color: yellow;
 }
-.stop-btn{
+.pause-btn{
     background-color: red;
 }
 .screen{
     margin-top: 50%;
-    width: 200px;
-    height: 200px;
+    width: 500px;
+    height: 500px;
     display: block;
     margin: 5px auto;
     border: 10px solid #657;
@@ -62,11 +60,11 @@
     position: relative;
 }
 .box{
-    width: 10px;
+    width: 20px;
     /* margin-right:10px; */
-    height: 10px;
+    height: 20px;
     position: absolute;
-    border:0.4px solid white;
+    border:1px solid white;
     background-color: black;
     
 }
