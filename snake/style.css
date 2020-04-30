@@ -39,8 +39,8 @@
 }
 .screen{
     margin-top: 50%;
-    width: 450px;
-    height: 450px;
+    width: 200px;
+    height: 200px;
     display: block;
     margin: 5px auto;
     border: 10px solid #657;
@@ -49,7 +49,7 @@
 }
 .box{
     width: 10px;
-    margin-right:10px;
+    /* margin-right:10px; */
     height: 10px;
     position: absolute;
     border:0.4px solid white;

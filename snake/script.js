@@ -3,18 +3,18 @@ const key_right = "39";
 const key_down = "40";
 const key_up="38";
 const startBody = [
-    {
-        row:0,
-        col:3
-    },
-    {
-        row :0,
-        col:2
-    },
-    {
-        row:0,
-        col:1
-    },
+    // {
+    //     row:0,
+    //     col:3
+    // },
+    // {
+    //     row :0,
+    //     col:2
+    // },
+    // {
+    //     row:0,
+    //     col:1
+    // },
     {
         row :0,
         col :0
@@ -28,12 +28,12 @@ class Snake{
         this.maxRows= this.maxHeight/this.boxSize;
         this.maxCols = this.maxWidth/this.boxSize;
         this.gameon=false;
-        this.direction = 
+        this.direction = "right";
         // this.startPointX= (document.getElementById("screen-id").offsetWidth - this.maxWidth)/2;
         // this.startPointY= (document.getElementById("screen-id").offsetHeight - this.maxHeight)/2;
         this.snake=JSON.parse(JSON.stringify(startBody));
         this.snakeBodyElems=[];
-        console.log(this.snake);
+        // console.log(this.snake);
         this.fruit=[
             {
                 row: 0,
@@ -66,7 +66,7 @@ class Snake{
         this.setupBoard();
     }
     setupBoard(){
-        document.body.addEventListener("keydown",this.changeDirection);
+        document.body.addEventListener("keydown",this.changeDirection.bind(this));
         this.addButtons();
         this.addSnake();
         this.addFruit();
@@ -76,18 +76,18 @@ class Snake{
      */
     changeDirection(e){
         
-        if(e.keyCode ==key_left  ){
-        
+        if(e.keyCode ==key_left &&  this.direction != "right" ){
+            this.direction = "left";
         }
-        if(e.keyCode==key_right){
-            console.log("right");
+        if(e.keyCode==key_right && this.direction != "left"){
+            this.direction = "right";
         }
-        if(e.keyCode==key_up){
-            console.log("up");
+        if(e.keyCode==key_up && this.direction != "down"){
+            this.direction = "up";
         }
      
-        if(e.keyCode==key_down){
-            console.log("down");
+        if(e.keyCode==key_down && this.direction != "up"){
+            this.direction = "down";
         }
 
     }
@@ -114,6 +114,7 @@ class Snake{
         resetBtn.addEventListener("click",this.resetGame.bind(this))
         document.getElementById("btns-id").append(resetBtn);
     }
+ 
     addSnake(){
         for(let i =0; i<this.snake.length; i++){
             
@@ -125,7 +126,7 @@ class Snake{
             this.screen.append(elem);
             this.snakeBodyElems.push(elem);
         }
-        console.log(this.snakeBodyElems);
+        // console.log(this.snakeBodyElems);
     }
 
 
@@ -135,9 +136,10 @@ class Snake{
         fruit.classList.add("box-fruit");  
         fruit.id="fruit-id"
         this.assignRandomCords();
-        fruit.style.right=this.fruit.row*this.boxSize+"px";
-        fruit.style.top=this.fruit.col*this.boxSize+"px";
-        document.getElementById("screen-id").append(fruit);
+        fruit.style.top=this.fruit[0].row*this.boxSize+"px";
+        fruit.style.left=this.fruit[0].col*this.boxSize+"px";
+        this.screen.append(fruit);
+        console.log(this.fruit[0].row+" "+this.fruit[0].col);
     }
 
     assignRandomCords(){
@@ -147,8 +149,9 @@ class Snake{
             newCol = Math.floor(Math.random()*(this.maxCols-1));
             if(this.snake.filter(cords=> cords.col==newCol && cords.row==newRow).length ==0) break;
         }
-        this.fruit.row=newRow;
-        this.fruit.col=newCol;
+        this.fruit[0].row=newRow;
+        this.fruit[0].col=newCol;
+        console.log(newRow+" "+newCol);
     }
 
 
@@ -158,10 +161,16 @@ class Snake{
 
     resetGame(){
         this.stopGame();
-        this.snake = startBody;
-        const oldFruit=document.getElementById("fruit-id");
-        oldFruit.parentNode.removeChild(oldFruit);
+        this.snake = JSON.parse(JSON.stringify(startBody));
+        const scrn = document.getElementById("screen-id");
+        let child=scrn.firstChild;
+        while(child){
+            scrn.removeChild(child);
+            child=scrn.firstChild;
+        }
         this.addFruit();
+        this.addSnake();
+        this.direction="right";
     }
 
 
@@ -170,30 +179,39 @@ class Snake{
         clearInterval(this.interval);
     }
 
-    
-    
-    
     startNewGame(){
         if(this.gameon){
-            //clearInterval(this.interval);
-            alert("please end the current game");
-           // this.interval = setInterval(this.playGame.bind(this),1000);
-
             return;
         }
         this.gameon=true;
-        this.interval = setInterval(this.playGame.bind(this),1000);
+        this.interval = setInterval(this.playGame.bind(this),100);
     }
     playGame(){
         this.moveSnakeOneStep();
+       // console.log("SNAKE " + this.snake[0].row+" "+this.snake[0].col);
     }
     
     moveSnakeOneStep(){
 
-        console.log(this.snake);
+        
         let newCol,newRow;
-        newRow=this.getSnakeRow();
-        newCol = this.getSnakeCol()+1;
+        newRow=this.snake[0].row;
+        newCol=this.snake[0].col;
+        
+        if(this.direction == "left"){
+            newCol-=1;
+        }
+        if(this.direction=="right"){
+            newCol+=1;
+        }
+        if(this.direction == "up"){
+            newRow-=1;
+
+        }
+        if(this.direction=="down"){
+            newRow+=1;
+        }
+
         this.snake.unshift({
             row:newRow,
             col:newCol
@@ -201,9 +219,29 @@ class Snake{
         this.snake.pop();
         const toDelet=this.snakeBodyElems.pop();
         toDelet.parentNode.removeChild(toDelet);
-        console.log(this.snake);
 
-       
+        const newHead = document.createElement("div");
+        newHead.className="box";
+        newHead.id = "box-id";
+        newHead.style.top=this.snake[0].row*this.boxSize+"px";
+        newHead.style.left=this.snake[0].col*this.boxSize+"px";
+        this.screen.append(newHead);
+        this.snakeBodyElems.push(newHead);
+        this.checkCollision();
+    }
+
+    checkCollision(){
+        const currRow = this.snake[0].row;
+        const currCol = this.snake[0].col;
+        if(currRow< 0 || currRow>=this.maxRows || currCol< 0 || currCol>=this.maxCols)
+        {
+            // alert("Game Over");
+            this.resetGame();
+            return;
+        }
+        if(currRow==this.fruit[0].row && currCol == this.fruit[0].col){
+            console.log("asda");
+        }
     }
 
 
